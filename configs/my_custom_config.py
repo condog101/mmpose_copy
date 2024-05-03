@@ -1,13 +1,39 @@
-_base_ = ['../../../_base_/default_runtime.py']
+_base_ = ['./_base_/default_runtime.py']
 
 # runtime
-train_cfg = dict(max_epochs=100, val_interval=1)
+train_cfg = dict(max_epochs=15, val_interval=1)
 
 # optimizer
 optim_wrapper = dict(optimizer=dict(
     type='Adam',
     lr=5e-4,
-))
+    weight_decay=0.0001,
+),
+    paramwise_cfg=dict(
+        custom_keys={
+            'backbone.layer0': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer1': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer2': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer3': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer4': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer5': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer6': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer7': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer8': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer9': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer10': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer11': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer12': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer13': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer14': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer15': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer16': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer17': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer18': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer19': dict(lr_mult=0, decay_mult=0),
+            'backbone.layer20': dict(lr_mult=0, decay_mult=0)
+        }))
+
 
 # learning policy
 param_scheduler = [
@@ -58,6 +84,7 @@ model = dict(
         shift_heatmap=True,
     ))
 
+load_from = '/home/connorscomputer/SpineSegmentation/mmpose/res50_freihand_224x224-ff0799bc_20200914.pth'
 # base dataset settings
 dataset_type = 'FreiHandDataset'
 data_mode = 'topdown'
@@ -88,7 +115,7 @@ val_pipeline = [
 # data loaders
 train_dataloader = dict(
     batch_size=64,
-    num_workers=4,
+    num_workers=2,
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
     dataset=dict(
